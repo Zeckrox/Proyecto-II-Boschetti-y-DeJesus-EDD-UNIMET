@@ -1,6 +1,6 @@
 package logic;
 
-import Estructuras.ListaEnlazada;
+import Estructuras.ListaDoble;
 
 /**
  * @author Stefano Boschetti
@@ -11,13 +11,13 @@ public class Habitacion {
     Integer numHab;
     String tipoHab;
     Cliente cliente;
-    ListaEnlazada historico;
+    ListaDoble historico;
     
     public Habitacion(Integer floor, Integer number, String type, Cliente customer){
         piso = floor;
         numHab = number;
         tipoHab = type;
         cliente = customer;
-        historico = new ListaEnlazada();
+        historico = new ListaDoble();
     }
 }
