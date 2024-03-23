@@ -1,7 +1,7 @@
 package logic;
 
 import Estructuras.BinaryTree;
-import Estructuras.ListaDoble;
+import Estructuras.HashTable;
 
 /**
  * @author Stefano Boschetti
@@ -17,20 +17,22 @@ public class HotelBooking {
         ola.insertar(1, 1);
         ola.insertar(11, 11);
         
-        ListaDoble chao = new ListaDoble();
-        chao.push(5);
-        chao.push(8);
-        chao.push(50);
-        chao.push(53);
-        chao.eliminar(5);
-        chao.eliminar(8);
-        chao.eliminar(53);
-        chao.push(514);
-        chao.push(33);
-        chao.push(22);
+        HashTable chao = new HashTable(10);
+        chao.put("francia", "samuel");
+        chao.put("si", "irrael");
+        chao.put("cinco", "seix");
+        chao.put("top", "Garen");
+        chao.put("mid", "Zoe");
+        chao.put("azul", "blue");
+        chao.delete("top");
+        chao.delete("si");
+        chao.delete("mid");
+
         chao.print();
-        System.out.println(String.format("tamano: %d",chao.size));
         
+        System.out.println();
+        System.out.println(chao.get("azul"));
+
     }
-    
+
 }
