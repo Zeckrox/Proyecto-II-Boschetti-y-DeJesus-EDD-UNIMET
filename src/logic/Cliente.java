@@ -6,8 +6,8 @@ package logic;
  */
 public class Cliente {
     Integer cedula;
-    String nombre;
-    String apellido;
+    public String nombre;
+    public String apellido;
     String email;
     String genero;
     String telefono;

@@ -17,13 +17,11 @@ public class HashTable<K, V> {
 
     public int hash(K key) {
         if (key.getClass() == String.class) {
-            String sKey = key.toString();
-            int hashing = 0;
-            for (int i = 0; i < sKey.length(); i++) {
-                int j = i + 1;
-                hashing += (int) sKey.charAt(i) * j;
+            Integer hKey = key.hashCode();
+            if (hKey < 0) {
+                hKey = hKey * -1;
             }
-            return hashing % size;
+            return hKey % size;
         } else if (key.getClass() == Integer.class) {
             return (int) key % size;
         }
