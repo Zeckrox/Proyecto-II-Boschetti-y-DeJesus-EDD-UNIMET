@@ -25,7 +25,7 @@ public class BinaryTree<T> {
     }
 
     private NodoTree busqueda(NodoTree auxNodo, Integer k) {
-        if (auxNodo.key == k) {
+        if (auxNodo.key.equals(k)) {
             return auxNodo;
         } else if (auxNodo.key < k) {
             return busqueda(auxNodo.derecho, k);
@@ -76,7 +76,9 @@ public class BinaryTree<T> {
 
     private void preorden(NodoTree nodo) {
         if (nodo != null) {
-            System.out.println(nodo.key);
+            System.out.print(nodo.key);
+            System.out.print(" | ");
+            System.out.println(nodo.info);
             preorden(nodo.izquierdo);
             preorden(nodo.derecho);
         }

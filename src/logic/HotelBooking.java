@@ -12,7 +12,12 @@ public class HotelBooking {
 
     public static void main(String[] args) {
         Populator ola = new Populator();
-        ola.loadRooms().print();
+        BinaryTree arbolHabitaciones = new BinaryTree();
+        HashTable tablaHabitaciones = ola.loadRooms(arbolHabitaciones);
+        BinaryTree arbolReservas = ola.loadReservas();
+        Habitacion hab = (Habitacion) arbolHabitaciones.buscar(2).info;
+        Habitacion habdos = (Habitacion) tablaHabitaciones.get("KayMcPherson");
+        arbolHabitaciones.printPreorden();
     }
 
 }

@@ -5,10 +5,11 @@ package logic;
  * @author Diego De Jesus
  */
 public class Reserva {
-    Cliente cliente;
-    String tipoHab;
-    
-    public Reserva(Cliente customer, String hab){
+
+    public Cliente cliente;
+    public String tipoHab;
+
+    public Reserva(Cliente customer, String hab) {
         cliente = customer;
         tipoHab = hab;
     }

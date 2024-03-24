@@ -7,13 +7,13 @@ import Estructuras.ListaDoble;
  * @author Diego De Jesus
  */
 public class Habitacion {
-    String piso;
-    String numHab;
+    Integer piso;
+    public Integer numHab;
     String tipoHab;
     public Cliente cliente;
     public ListaDoble historico;
     
-    public Habitacion(String floor, String number, String type, Cliente customer){
+    public Habitacion(Integer floor, Integer number, String type, Cliente customer){
         piso = floor;
         numHab = number;
         tipoHab = type;

@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package data;
 
+import Estructuras.BinaryTree;
 import Estructuras.HashTable;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -15,6 +12,7 @@ import java.util.logging.Logger;
 import logic.Cliente;
 import logic.Habitacion;
 import logic.HotelBooking;
+import logic.Reserva;
 
 /**
  * @author Stefano Boschetti
@@ -26,33 +24,55 @@ public class Populator {
 
     }
 
-    public HashTable loadRooms() {
+    public HashTable loadRooms(BinaryTree arbolHabitaciones) {
         try {
-            CSVReader csvRooms, csvCustomers, csvCounter;
-            String[] filaR, filaC, filaCounter;
+            CSVReader csvRooms, csvCustomers, csvCounter, csvHistorico;
+            String[] filaR, filaC, filaH;
             String roomsData = "src/data/habitaciones.csv";
             String customersData = "src/data/clientes.csv";
+            String historicoData = "src/data/historico.csv";
+
             csvRooms = new CSVReader(new FileReader(roomsData));
             csvCustomers = new CSVReader(new FileReader(customersData));
             csvCounter = new CSVReader(new FileReader(roomsData));
+            csvHistorico = new CSVReader(new FileReader(historicoData));
+
             filaR = csvRooms.readNext();
             filaC = csvCustomers.readNext();
+            filaH = csvHistorico.readNext();
 //            Contamos la cantidad de filas que tiene nuestro archivo.
             Integer counter = 0;
-            filaCounter = csvCounter.readNext();
-            while ((filaCounter = csvCounter.readNext()) != null) {
+            csvCounter.readNext();
+            while ((csvCounter.readNext()) != null) {
                 counter++;
             }
 //            Con eso creamos nuestro Hashtable y lo poblamos.
             HashTable estadoActual = new HashTable(counter);
             while ((filaR = csvRooms.readNext()) != null && (filaC = csvCustomers.readNext()) != null) {
-                Cliente auxC = new Cliente(0, filaC[1], filaC[2], filaC[3], filaC[4], filaC[5], filaC[6], "");
-                Habitacion auxR = new Habitacion(filaR[2], filaR[0], filaR[1], auxC);
-                
-                estadoActual.put(auxR.cliente.nombre + auxR.cliente.apellido, auxR);
+                Cliente auxC;
+                if ("".equals(filaC[0])) {
+                    auxC = null;
+                } else {
+                    auxC = new Cliente(0, filaC[1], filaC[2], filaC[3], filaC[4], filaC[5], filaC[6], "");
+                }
+                Habitacion auxR = new Habitacion(Integer.parseInt(filaR[2].replaceAll("[^0-9]", "")),
+                        Integer.parseInt(filaR[0].replaceAll("[^0-9]", "")), filaR[1], auxC);
+//                    Populamos los historicos de cada habitacion.
+                while ((filaH = csvHistorico.readNext()) != null) {
+                    if (filaH[6].equals(filaC[0])) {
+                        Cliente newHistorico = new Cliente(Integer.parseInt(filaH[0].replaceAll("[^0-9]", "")),
+                                filaH[1], filaH[2], filaH[3], filaH[4], "0", filaH[5], "-");
+                        auxR.historico.push(newHistorico);
+                    }
+                }
+                arbolHabitaciones.insertar(auxR.numHab, auxR);
+                if (!"".equals(filaC[0])) {
+                    estadoActual.put(auxR.cliente.nombre + auxR.cliente.apellido, auxR);
+                }
             }
             csvRooms.close();
             return estadoActual;
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(HotelBooking.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException | CsvValidationException ex) {
@@ -61,4 +81,29 @@ public class Populator {
         return null;
     }
 
+    public BinaryTree loadReservas() {
+        try {
+            CSVReader csvData;
+            String[] fila;
+            String data = "src/data/reservas.csv";
+            csvData = new CSVReader(new FileReader(data));
+            fila = csvData.readNext();
+            BinaryTree arbolReservas = new BinaryTree();
+            while ((fila = csvData.readNext()) != null) {
+//                System.out.println(fila[0]);
+                Cliente auxC = new Cliente(Integer.parseInt(fila[0].replaceAll("[^0-9]", "")),
+                        fila[1], fila[2], fila[3], fila[4], fila[6], fila[7], fila[8]);
+                Reserva auxR = new Reserva(auxC, fila[5]);
+                arbolReservas.insertar(auxR.cliente.cedula, auxR);
+            }
+            csvData.close();
+            return arbolReservas;
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(HotelBooking.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | CsvValidationException ex) {
+            Logger.getLogger(HotelBooking.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

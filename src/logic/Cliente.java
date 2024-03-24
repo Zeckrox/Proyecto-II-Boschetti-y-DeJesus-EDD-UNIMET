@@ -5,7 +5,7 @@ package logic;
  * @author Diego De Jesus
  */
 public class Cliente {
-    Integer cedula;
+    public Integer cedula;
     public String nombre;
     public String apellido;
     String email;
