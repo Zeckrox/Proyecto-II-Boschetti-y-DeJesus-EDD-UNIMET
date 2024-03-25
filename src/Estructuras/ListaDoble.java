@@ -6,8 +6,8 @@ package Estructuras;
  */
 public class ListaDoble<T> {
 
-    NodoLista first;
-    NodoLista last;
+    public NodoLista first;
+    public NodoLista last;
     public Integer size;
 
     public ListaDoble() {
@@ -29,7 +29,7 @@ public class ListaDoble<T> {
         size++;
     }
 
-    public void eliminar(Integer k) {
+    public void eliminar(T k) {
         if (size > 0) {
             if(size == 1){
                 if(first.data == k){

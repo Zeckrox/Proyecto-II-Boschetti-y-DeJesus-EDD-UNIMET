@@ -8,11 +8,11 @@ public class Cliente {
     public Integer cedula;
     public String nombre;
     public String apellido;
-    String email;
-    String genero;
-    String telefono;
-    String llegada;
-    String salida;
+    public String email;
+    public String genero;
+    public String telefono;
+    public String llegada;
+    public String salida;
     
     public Cliente(Integer id, String name, String lastName, String mail, String gender, String phone, String arrival, String departure){
         cedula = id;

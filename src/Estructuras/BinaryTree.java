@@ -1,12 +1,15 @@
 package Estructuras;
 
+import javax.swing.DefaultListModel;
+import logic.Habitacion;
+
 /**
  * @author Stefano Boschetti
  * @author Diego De Jesus
  */
 public class BinaryTree<T> {
 
-    NodoTree raiz;
+    public NodoTree raiz;
 
     public BinaryTree() {
         raiz = null;
@@ -25,7 +28,9 @@ public class BinaryTree<T> {
     }
 
     private NodoTree busqueda(NodoTree auxNodo, Integer k) {
-        if (auxNodo.key.equals(k)) {
+        if (auxNodo == null) {
+            return null;
+        } else if (auxNodo.key.equals(k)) {
             return auxNodo;
         } else if (auxNodo.key < k) {
             return busqueda(auxNodo.derecho, k);
@@ -81,6 +86,20 @@ public class BinaryTree<T> {
             System.out.println(nodo.info);
             preorden(nodo.izquierdo);
             preorden(nodo.derecho);
+        }
+    }
+
+    public void checkRoom(NodoTree raiz, String roomType, DefaultListModel mod) {
+        if (raiz != null) {
+            Habitacion hab = (Habitacion) raiz.info;
+            if (hab.tipoHab.equals(roomType)) {
+                if (hab.cliente == null) {
+                    mod.addElement(String.format("<html>Habitacion(%d) | Piso: %d</br> &nbsp; </html>", hab.numHab, hab.piso));
+
+                }
+            }
+            checkRoom(raiz.izquierdo, roomType, mod);
+            checkRoom(raiz.derecho, roomType, mod);
         }
     }
 }

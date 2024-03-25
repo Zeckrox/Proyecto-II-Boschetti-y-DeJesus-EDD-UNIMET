@@ -5,9 +5,9 @@ package Estructuras;
  * @author Diego De Jesus
  */
 public class NodoLista <T> {
-    T data;
-    NodoLista anterior;
-    NodoLista siguente;
+    public T data;
+    public NodoLista anterior;
+    public NodoLista siguente;
     
     public NodoLista(T info){
         data = info;

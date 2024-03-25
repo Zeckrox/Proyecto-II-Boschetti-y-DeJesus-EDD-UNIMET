@@ -46,8 +46,16 @@ public class Populator {
             while ((csvCounter.readNext()) != null) {
                 counter++;
             }
-//            Con eso creamos nuestro Hashtable y lo poblamos.
+//              Con eso creamos nuestro HashTable.
             HashTable estadoActual = new HashTable(counter);
+            HashTable historicos = new HashTable(counter);
+//              Populamos los historicos de cada habitacion.
+            while ((filaH = csvHistorico.readNext()) != null) {
+                Cliente newHistorico = new Cliente(Integer.parseInt(filaH[0].replaceAll("[^0-9]", "")),
+                        filaH[1], filaH[2], filaH[3], filaH[4], "0", filaH[5], "-");
+                historicos.put(Integer.valueOf(filaH[6]), newHistorico);
+            }
+//            Poblamos el HashTable
             while ((filaR = csvRooms.readNext()) != null && (filaC = csvCustomers.readNext()) != null) {
                 Cliente auxC;
                 if ("".equals(filaC[0])) {
@@ -57,12 +65,12 @@ public class Populator {
                 }
                 Habitacion auxR = new Habitacion(Integer.parseInt(filaR[2].replaceAll("[^0-9]", "")),
                         Integer.parseInt(filaR[0].replaceAll("[^0-9]", "")), filaR[1], auxC);
-//                    Populamos los historicos de cada habitacion.
-                while ((filaH = csvHistorico.readNext()) != null) {
-                    if (filaH[6].equals(filaC[0])) {
-                        Cliente newHistorico = new Cliente(Integer.parseInt(filaH[0].replaceAll("[^0-9]", "")),
-                                filaH[1], filaH[2], filaH[3], filaH[4], "0", filaH[5], "-");
-                        auxR.historico.push(newHistorico);
+                while (true) {
+                    if (historicos.get(auxR.numHab) == null) {
+                        break;
+                    } else {
+                        auxR.historico.push(historicos.get(auxR.numHab));
+                        historicos.delete(auxR.numHab);
                     }
                 }
                 arbolHabitaciones.insertar(auxR.numHab, auxR);

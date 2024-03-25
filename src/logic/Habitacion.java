@@ -7,9 +7,9 @@ import Estructuras.ListaDoble;
  * @author Diego De Jesus
  */
 public class Habitacion {
-    Integer piso;
+    public Integer piso;
     public Integer numHab;
-    String tipoHab;
+    public String tipoHab;
     public Cliente cliente;
     public ListaDoble historico;
     

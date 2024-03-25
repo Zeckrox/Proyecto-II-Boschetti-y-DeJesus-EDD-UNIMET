@@ -53,11 +53,20 @@ public class HashTable<K, V> {
         }
         ListaDoble<NodoHash> list = buckets[x];
         ListaDoble<NodoHash> newList = new ListaDoble();
+        Boolean encontrado = false;
         for (NodoLista aux = list.first; aux != null; aux = aux.siguente) {
             NodoHash nodo = (NodoHash) aux.data;
-            if (!nodo.key.equals(key)) {
+            if (!encontrado) {
+                if (!nodo.key.equals(key)) {
+                    newList.push(nodo);
+                }
+                if (nodo.key.equals(key)) {
+                    encontrado = true;
+                }
+            } else {
                 newList.push(nodo);
             }
+
         }
         buckets[x] = (newList.size == 0) ? null : newList;
     }
